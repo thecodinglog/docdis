@@ -1,0 +1,10 @@
+{
+  "sourceDir": "c://intergis/source",
+  "targetDirs": [
+    "c://intergis/target1",
+    "c://intergis/target2"
+  ],
+  "backupDir": "c://intergis/backup",
+  "errorDir": "c://intergis/error/",
+  "cycle": 3
+}
