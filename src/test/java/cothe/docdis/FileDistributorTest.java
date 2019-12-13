@@ -9,7 +9,7 @@ public class FileDistributorTest {
     public void run() throws Exception {
         Settings settings = Settings.loadSettingFile("c:/intergis/settings.json");
         assertNotNull(settings);
-        FileDistributor fileDistributor = new FileDistributor(settings, LoggerFactory.getLogger());
+        FileDistributor fileDistributor = new FileDistributor(settings);
         fileDistributor.start();
     }
 }

@@ -12,14 +12,7 @@ public class Settings {
     private String backupDir;
     private int cycle;
     private String errorDir;
-
-    public Settings(String sourceDir, List<String> targetDirs, String backupDir, int cycle, String errorDir) {
-        this.sourceDir = sourceDir;
-        this.targetDirs = targetDirs;
-        this.backupDir = backupDir;
-        this.cycle = cycle;
-        this.errorDir = errorDir;
-    }
+    private String jandiConnectUrl;
 
     public static Settings loadSettingFile(String fileName) {
         Gson gson = new Gson();
@@ -68,5 +61,13 @@ public class Settings {
 
     public String getErrorDir() {
         return errorDir;
+    }
+
+    public String getJandiConnectUrl() {
+        return jandiConnectUrl;
+    }
+
+    public void setJandiConnectUrl(String jandiConnectUrl) {
+        this.jandiConnectUrl = jandiConnectUrl;
     }
 }

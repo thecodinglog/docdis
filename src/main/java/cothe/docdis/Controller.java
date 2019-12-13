@@ -1,5 +1,8 @@
 package cothe.docdis;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Controller {
     /**
      * 설정 파일을 가져온다.json
@@ -15,12 +18,31 @@ public class Controller {
      * @throws Exception 설정한 경로에 디렉터리가 없으면 예외가 발생한다.
      */
     public static void main(String[] args) throws Exception {
+        Logger logger = LogManager.getLogger(Controller.class);
+
         if (args.length == 0) {
             throw new IllegalArgumentException("Setting file path is required");
         }
+
+        logger.info("Start docdis");
+
         String settingFilePath = args[0];
         Settings settings = Settings.loadSettingFile(settingFilePath);
-        FileDistributor fileDistributor = new FileDistributor(settings, LoggerFactory.getLogger());
-        fileDistributor.start();
+
+        JandiConnectClient jandiConnectClient = new JandiConnectClient(settings.getJandiConnectUrl());
+        jandiConnectClient.sendMessage("Start Docdis");
+
+        FileDistributor fileDistributor = new FileDistributor(settings);
+        while (true) {
+            try {
+                fileDistributor.start();
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                jandiConnectClient.sendMessage("Process terminated :: " + e.getMessage());
+            }
+            Thread.sleep(60000);
+            jandiConnectClient.sendMessage("Restart scan.");
+            logger.info("Restart scan.");
+        }
     }
 }
